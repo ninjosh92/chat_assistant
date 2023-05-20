@@ -1,5 +1,8 @@
 import pyaudio
 import wave
+import keyboard
+import speech_recognition as sr
+import time
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
@@ -19,12 +22,14 @@ stream = p.open(format=FORMAT,
 print("Recording started. Press Ctrl+C to stop recording.")
 
 frames = []
-try:
-    while True:
-        data = stream.read(CHUNK)
-        frames.append(data)
-except KeyboardInterrupt:
-    pass
+
+while not ( keyboard.is_pressed('space') ):
+    print("Hold down the Space bar...")
+    time.sleep(.5)
+
+while keyboard.is_pressed('space'):
+    data = stream.read(CHUNK)
+    frames.append(data)
 
 print("Recording stopped.")
 
